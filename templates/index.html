@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CineMatch - Seu Recomendador de Filmes</title>
+    <link rel="stylesheet" href="../static/style.css">
+</head>
+<body>
+
+    <div class="container">
+        <h1>CineMatch</h1>
+        <p class="subtitle">Escolha um filme que você gosta e veja a mágica!</p>
+
+        <div class="input-group">
+            <select id="filme-usuario">
+                <option value="" disabled selected>Selecione um filme...</option>
+                <option value="Matrix">Matrix</option>
+                <option value="Interestelar">Interestelar</option>
+                <option value="John Wick">John Wick</option>
+                <option value="Invocação do Mal">Invocação do Mal</option>
+                <option value="Gente Grande">Gente Grande</option>
+                <option value="Vingadores: Ultimato">Vingadores: Ultimato</option>
+            </select>
+
+            <button onclick="buscarRecomendacoes()">Encontrar Semelhantes</button>
+        </div>
+
+        <div id="lista-recomendacoes"></div>
+    </div>
+    <script src="../static/script.js"></script>
+    </body>
+</html>
