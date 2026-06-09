@@ -3,6 +3,7 @@ from flask import Flask, jsonify, request
 # app.py (Adicione antes do final do arquivo)
 
 app = Flask(__name__)
+main = app
 
 filmes_db = [
     {
