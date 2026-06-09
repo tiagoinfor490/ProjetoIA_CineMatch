@@ -1,33 +1,40 @@
 <!DOCTYPE html>
 <html lang="pt-br">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>CineMatch - Seu Recomendador de Filmes</title>
     <link rel="stylesheet" href="../static/style.css">
 </head>
+
 <body>
 
     <div class="container">
         <h1>CineMatch</h1>
         <p class="subtitle">Escolha um filme que você gosta e veja a mágica!</p>
-
         <div class="input-group">
-            <select id="filme-usuario">
-                <option value="" disabled selected>Selecione um filme...</option>
-                <option value="Matrix">Matrix</option>
-                <option value="Interestelar">Interestelar</option>
-                <option value="John Wick">John Wick</option>
-                <option value="Invocação do Mal">Invocação do Mal</option>
-                <option value="Gente Grande">Gente Grande</option>
-                <option value="Vingadores: Ultimato">Vingadores: Ultimato</option>
-            </select>
+            <input type="text" id="filme-usuario" list="lista-sugestoes-busca"
+                placeholder="Digite o nome de um filme (ex: Matrix)..." autocomplete="on"
+                style="width: 100%; padding: 12px; border-radius: 5px; border: none; background-color: #333; color: white; font-size: 1rem; margin-bottom: 20px; box-sizing: border-box; outline: none;">
+            <datalist id="lista-sugestoes-busca"></datalist>
 
             <button onclick="buscarRecomendacoes()">Encontrar Semelhantes</button>
+        </div>
+        <div style="margin-top: 20px; text-align: left; background: #222; padding: 15px; border-radius: 10px;">
+            <h4 style="margin: 0 0 10px 0; color: var(--primary-color);">🍿 Meu Histórico (Já Assistidos):</h4>
+            <div id="lista-historico"
+                style="display: flex; flex-wrap: wrap; gap: 10px; color: var(--text-gray); font-size: 0.9rem;">
+                <em>Nenhum filme assistido ainda.</em>
+            </div>
+            <button onclick="limparHistorico()"
+                style="margin-top: 15px; padding: 5px 10px; font-size: 0.8rem; background-color: #333;">Limpar
+                Histórico</button>
         </div>
 
         <div id="lista-recomendacoes"></div>
     </div>
     <script src="../static/script.js"></script>
-    </body>
+</body>
+
 </html>
