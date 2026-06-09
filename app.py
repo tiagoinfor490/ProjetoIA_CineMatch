@@ -68,61 +68,87 @@ filmes_db = [
         "genero": "Terror", 
         "diretor": "James Wan",
         "poster": "https://br.web.img2.acsta.net/pictures/210/166/21016629_2013062820083878.jpg"
-    }
+
+    },
+    
+    {
+        "id": 10,
+        "titulo": "Duna",
+        "genero": "Ficção Científica", 
+        "diretor": "Denis Villeneuve", 
+        "poster": "https://images.unsplash.com/photo-1509198397868-475647b2a1e5?q=80&w=400"
+
+    },
+
+    {
+        "id": 11,
+        "titulo": "Tenet",
+        "genero": "Ficção Científica",
+        "diretor": "Christopher Nolan",
+        "poster": "https://images.unsplash.com/photo-1534447677768-be436bb09401?q=80&w=400"
+        
+    },
+    {
+    "id": 12, 
+    "titulo": "Gladiador", 
+    "genero": "Ação",
+    "diretor": "Ridley Scott", 
+    "poster": "https://images.unsplash.com/photo-1559181567-c3190ca9959b?q=80&w=400"
+    
+    },
+
+    {"id": 13, "titulo": "Mad Max: Estrada da Fúria", "genero": "Ação", "diretor": "George Miller", "poster": "https://images.unsplash.com/photo-1509114397022-ed747cca3f65?q=80&w=400"},
+
+    {"id": 14, "titulo": "Batman: O Cavaleiro das Trevas", "genero": "Ação", "diretor": "Christopher Nolan", "poster": "https://images.unsplash.com/photo-1478760329108-5c3ed9d495a0?q=80&w=400"},
 ]
 
 # [Etapa 2] Nossa lógica de recomendação da IA
 # app.py (Substitua a função recomendar_filmes)
 
+# app.py (Substitua a função recomendar_filmes para garantir compatibilidade total)
+
 def recomendar_filmes(titulo_escolhido):
-    # 1. Encontra o filme que o usuário escolheu
     filme_usuario = None
+    # Remove espaços e joga para minúsculo
+    titulo_busca = titulo_escolhido.strip().lower()
+    
     for filme in filmes_db:
-        if filme["titulo"].lower() == titulo_escolhido.lower():
+        if filme["titulo"].lower() == titulo_busca:
             filme_usuario = filme
             break
     
     if not filme_usuario:
         return None
     
-    # 2. Guarda as características do filme escolhido
     genero_alvo = filme_usuario["genero"]
     diretor_alvo = filme_usuario.get("diretor", "")
     
     sugestoes = []
     
-    # 3. O SISTEMA DE PESOS (SCORING)
-   # app.py (Ajuste apenas essa linha dentro da função recomendar_filmes)
-
     for filme in filmes_db:
-        # Adicionado o .strip() para remover espaços invisíveis que o usuário possa ter digitado
-        if filme["titulo"].lower() == titulo_escolhido.strip().lower():
-            filme_usuario = filme
-            break
-
+        # Garante que não vai recomendar o próprio filme pesquisado
+        if filme["titulo"].lower() == titulo_busca:
+            continue
+            
         pontos = 0
         
-        # Regra 1: Mesmo gênero vale 1 ponto
+        # Comparação direta de gênero
         if filme["genero"] == genero_alvo:
             pontos += 1
             
-        # Regra 2: Mesmo diretor vale 2 pontos
+        # Comparação direta de diretor
         if "diretor" in filme and filme["diretor"] == diretor_alvo:
             pontos += 2
             
-        # Se o filme marcou pelo menos 1 ponto, ele entra nas sugestões
         if pontos > 0:
-            # Criamos uma cópia do filme para não alterar o banco de dados original
             filme_sugerido = filme.copy()
-            filme_sugerido["pontos"] = pontos # Salvamos a pontuação do filme
+            filme_sugerido["pontos"] = pontos
             sugestoes.append(filme_sugerido)
             
-    # 4. Ordenar os filmes: quem tem mais pontos aparece primeiro!
-    # (O código lambda abaixo é um truque do Python para ordenar listas baseadas em um valor específico)
     sugestoes.sort(key=lambda x: x["pontos"], reverse=True)
             
     return sugestoes
-
+    
 # === [Etapa 3 Nova!] Criando a nossa API Web ===
 
 @app.route('/api/recomendar', methods=['GET'])

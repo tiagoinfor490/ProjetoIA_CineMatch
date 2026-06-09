@@ -1,9 +1,6 @@
 // static/script.js
 
-// Carrega o histórico da memória do navegador
 let historicoAssistidos = JSON.parse(localStorage.getItem('cineMatchHistorico')) || [];
-
-// NOVA VARIÁVEL: Vai guardar os nomes dos filmes para a busca automática instantânea
 let filmesDisponiveis = []; 
 
 function buscarRecomendacoes() {
@@ -12,11 +9,11 @@ function buscarRecomendacoes() {
     const containerResultados = document.getElementById('lista-recomendacoes');
 
     if (!filmeEscolhido) {
-        return; // Se estiver vazio, não faz nada
+        containerResultados.innerHTML = "<p class='subtitle' style='color: #ffcc00;'>⚠️ Por favor, digite ou selecione o nome de um filme antes de buscar!</p>";
+        return;
     }
 
-    adicionarAoHistorico(filmeEscolhido);
-    containerResultados.innerHTML = "<p class='subtitle'>Consultando o cérebro do CineMatch...</p>";
+    containerResultados.innerHTML = "<p class='subtitle'>🔍 Consultando o cérebro do CineMatch...</p>";
 
     fetch(`/api/recomendar?filme=${filmeEscolhido}`)
         .then(response => response.json())
@@ -24,16 +21,31 @@ function buscarRecomendacoes() {
             containerResultados.innerHTML = "";
 
             if (dados.erro) {
-                containerResultados.innerHTML = `<p style="color: var(--primary-color);">${dados.erro}</p>`;
+                containerResultados.innerHTML = `
+                    <p class='subtitle' style='color: #ff4444;'>❌ Ops! "${filmeEscolhido}" não foi encontrado no nosso catálogo.</p>
+                    <p style='color: var(--text-gray); font-size: 0.9rem;'>Dica: Verifique a ortografia ou escolha uma das opções sugeridas na lista!</p>
+                `;
                 return;
             }
 
-            const sugestoesFiltradas = dados.filter(filme => !historicoAssistidos.includes(filme.titulo));
+            // --- CORREÇÃO AQUI ---
+            // Removemos o 'adicionarAoHistorico(filmeEscolhido)' que estava aqui!
+            // Agora filtramos para não sugerir o próprio filme buscado E nem os que estão no histórico
+            const sugestoesFiltradas = dados.filter(filme => 
+                filme.titulo.toLowerCase() !== filmeEscolhido.toLowerCase() && 
+                !historicoAssistidos.includes(filme.titulo)
+            );
 
             if (sugestoesFiltradas.length === 0) {
                 containerResultados.innerHTML = "<p class='subtitle'>🎉 Você já assistiu a todas as recomendações disponíveis para este gênero!</p>";
                 return;
             }
+
+            const mensagemSucesso = document.createElement('p');
+            mensagemSucesso.className = 'subtitle';
+            mensagemSucesso.style.color = '#00cc66';
+            mensagemSucesso.innerHTML = `🍿 Encontramos estes filmes semelhantes a <strong>${filmeEscolhido}</strong>:`;
+            containerResultados.appendChild(mensagemSucesso);
 
             sugestoesFiltradas.forEach(filme => {
                 const card = document.createElement('div');
@@ -48,7 +60,7 @@ function buscarRecomendacoes() {
                         <p style="color: var(--primary-color); font-weight: bold; margin-top: 5px; font-size: 0.85rem;">
                             🔥 Afinidade: ${filme.pontos} ponto(s)
                         </p>
-                        <button onclick="adicionarAoHistorico('${filme.titulo}'); buscarRecomendacoes();" style="margin-top: 10px; background-color: #333; font-size: 0.75rem; padding: 4px 8px; align-self: flex-start;">
+                        <button onclick="adicionarAoHistorico('${filme.titulo}'); buscarRecomendacoesAoClicarNoCard('${filmeEscolhido}');" style="margin-top: 10px; background-color: #333; font-size: 0.75rem; padding: 4px 8px; align-self: flex-start;">
                             Já Assisti ✔
                         </button>
                     </div>
@@ -56,13 +68,17 @@ function buscarRecomendacoes() {
                 containerResultados.appendChild(card);
             });
             
-            // Limpa o campo de texto para a próxima busca
             inputElement.value = "";
         })
         .catch(erro => {
             console.error("Erro:", erro);
             containerResultados.innerHTML = "<p>Ops! Erro ao conectar com o servidor.</p>";
         });
+}
+
+function buscarRecomendacoesAoClicarNoCard(filmeOriginal) {
+    document.getElementById('filme-usuario').value = filmeOriginal;
+    buscarRecomendacoes();
 }
 
 function adicionarAoHistorico(tituloFilme) {
@@ -97,9 +113,7 @@ function carregarMenuFilmes() {
         .then(filmes => {
             const datalistElement = document.getElementById('lista-sugestoes-busca');
             datalistElement.innerHTML = ''; 
-            
-            // ATUALIZAÇÃO: Guardamos a lista de filmes em letras minúsculas para checagem rápida
-            filmesDisponiveis = filmes.map(f => f.titulo.toLowerCase());
+            filmesDisponiveis = Array.isArray(filmes) ? filmes.map(f => f.titulo.toLowerCase()) : [];
 
             filmes.forEach(filme => {
                 const opcao = document.createElement('option');
@@ -110,17 +124,12 @@ function carregarMenuFilmes() {
         });
 }
 
-// === NOVIDADE: OUVINTE DE DIGITAÇÃO INSTANTÂNEA ===
 document.addEventListener('DOMContentLoaded', () => {
     carregarMenuFilmes();
 
-    // Monitora tudo o que é digitado na caixinha de texto
-    document.getElementById('filme-usuario').addEventListener('input', (e) => {
-        const textoDigitado = e.target.value.trim().toLowerCase();
-        
-        // Se o usuário clicou na sugestão ou terminou de digitar o nome exato de um filme da lista:
-        if (filmesDisponiveis.includes(textoDigitado)) {
-            buscarRecomendacoes(); // Dispara a IA imediatamente!
+    document.getElementById('filme-usuario').addEventListener('keydown', (e) => {
+        if (e.key === 'Enter') {
+            buscarRecomendacoes();
         }
     });
 });
