@@ -1,12 +1,13 @@
 // static/script.js
 
 let historicoAssistidos = JSON.parse(localStorage.getItem('cineMatchHistorico')) || [];
-let filmesDisponiveis = []; 
+let filmesOriginal = []; // Vai guardar a lista completa vinda do servidor com letras normais
 
 function buscarRecomendacoes() {
     const inputElement = document.getElementById('filme-usuario');
     const filmeEscolhido = inputElement.value.trim(); 
     const containerResultados = document.getElementById('lista-recomendacoes');
+    fecharSugestoes(); // Fecha a caixinha ao buscar
 
     if (!filmeEscolhido) {
         containerResultados.innerHTML = "<p class='subtitle' style='color: #ffcc00;'>⚠️ Por favor, digite ou selecione o nome de um filme antes de buscar!</p>";
@@ -23,14 +24,11 @@ function buscarRecomendacoes() {
             if (dados.erro) {
                 containerResultados.innerHTML = `
                     <p class='subtitle' style='color: #ff4444;'>❌ Ops! "${filmeEscolhido}" não foi encontrado no nosso catálogo.</p>
-                    <p style='color: var(--text-gray); font-size: 0.9rem;'>Dica: Verifique a ortografia ou escolha uma das opções sugeridas na lista!</p>
+                    <p style='color: var(--text-gray); font-size: 0.9rem;'>Dica: Verifique a ortografia ou use a nossa lista de sugestões!</p>
                 `;
                 return;
             }
 
-            // --- CORREÇÃO AQUI ---
-            // Removemos o 'adicionarAoHistorico(filmeEscolhido)' que estava aqui!
-            // Agora filtramos para não sugerir o próprio filme buscado E nem os que estão no histórico
             const sugestoesFiltradas = dados.filter(filme => 
                 filme.titulo.toLowerCase() !== filmeEscolhido.toLowerCase() && 
                 !historicoAssistidos.includes(filme.titulo)
@@ -111,25 +109,78 @@ function carregarMenuFilmes() {
     fetch('/api/filmes')
         .then(response => response.json())
         .then(filmes => {
-            const datalistElement = document.getElementById('lista-sugestoes-busca');
-            datalistElement.innerHTML = ''; 
-            filmesDisponiveis = Array.isArray(filmes) ? filmes.map(f => f.titulo.toLowerCase()) : [];
-
-            filmes.forEach(filme => {
-                const opcao = document.createElement('option');
-                opcao.value = filme.titulo; 
-                datalistElement.appendChild(opcao);
-            });
+            // Guardamos os dados puros dos filmes vindos do Python
+            filmesOriginal = Array.isArray(filmes) ? Grid = filmes : [];
             atualizarVisualHistorico();
         });
+}
+
+// NOVA FUNÇÃO: Atualiza a caixa de sugestões personalizada conforme a digitação
+function atualizarCaixaSugestoes(texto) {
+    const caixa = document.getElementById('caixa-sugestoes');
+    const termo = texto.trim().toLowerCase();
+
+    if (!termo) {
+        fecharSugestoes();
+        return;
+    }
+
+    // Filtra os filmes do catálogo que contém as letras digitadas
+    const filtrados = filmesOriginal.filter(filme => 
+        filme.titulo.toLowerCase().includes(termo)
+    );
+
+    if (filtrados.length === 0) {
+        fecharSugestoes();
+        return;
+    }
+
+    // Limpa e constrói as linhas de sugestões
+    caixa.innerHTML = '';
+    filtrados.forEach(filme => {
+        const item = document.createElement('div');
+        item.className = 'sugestao-item';
+        item.textContent = filme.titulo;
+        
+        // Quando o usuário clica/toca na sugestão customizada
+        item.onclick = function() {
+            document.getElementById('filme-usuario').value = filme.titulo;
+            fecharSugestoes();
+            buscarRecomendacoes(); // Dispara a busca imediatamente após a escolha
+        };
+        
+        caixa.appendChild(item);
+    });
+
+    caixa.style.display = 'block'; // Mostra a caixinha na tela
+}
+
+function fecharSugestoes() {
+    document.getElementById('caixa-sugestoes').style.display = 'none';
 }
 
 document.addEventListener('DOMContentLoaded', () => {
     carregarMenuFilmes();
 
-    document.getElementById('filme-usuario').addEventListener('keydown', (e) => {
+    const inputInput = document.getElementById('filme-usuario');
+
+    // Escuta a digitação para atualizar a nossa lista customizada
+    inputInput.addEventListener('input', (e) => {
+        atualizarCaixaSugestoes(e.target.value);
+    });
+
+    // Permite buscar ao apertar Enter
+    inputInput.addEventListener('keydown', (e) => {
         if (e.key === 'Enter') {
             buscarRecomendacoes();
+        }
+    });
+
+    // Fecha a lista se o usuário clicar em qualquer outro lugar fora da caixinha
+    document.addEventListener('click', (e) => {
+        if (e.target !== inputInput) {
+            // Um pequeno delay para dar tempo do clique no item funcionar antes de sumir
+            setTimeout(fecharSugestoes, 200);
         }
     });
 });

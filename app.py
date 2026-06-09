@@ -85,7 +85,7 @@ filmes_db = [
         "titulo": "Tenet",
         "genero": "Ficção Científica",
         "diretor": "Christopher Nolan",
-        "poster": "https://images.unsplash.com/photo-1534447677768-be436bb09401?q=80&w=400"
+        "poster": "https://m.media-amazon.com/images/M/MV5BYjI0NDQzYmEtNzMwZC00ODA3LTgzZDYtZTk5ODZjY2Y2OTkzXkEyXkFqcGc@._V1_.jpg"
         
     },
     {
@@ -93,11 +93,18 @@ filmes_db = [
     "titulo": "Gladiador", 
     "genero": "Ação",
     "diretor": "Ridley Scott", 
-    "poster": "https://images.unsplash.com/photo-1559181567-c3190ca9959b?q=80&w=400"
+    "poster": "https://cinema-em-cena.nyc3.cdn.digitaloceanspaces.com/reviews/1233/4DUClyGA6OqjXv6yC0Imf6THGfp.jpg"
     
     },
 
-    {"id": 13, "titulo": "Mad Max: Estrada da Fúria", "genero": "Ação", "diretor": "George Miller", "poster": "https://images.unsplash.com/photo-1509114397022-ed747cca3f65?q=80&w=400"},
+    {
+    "id": 13, "titulo":
+    "Mad Max: Estrada da Fúria", 
+    "genero": "Ação",
+    "diretor": "George Miller", 
+    "poster": "https://play-lh.googleusercontent.com/4jEtcyD2lETV4XbD7Tz-epv7z4f9MK07hPNG1ZvwShJP1eIHg5rdDrDDNM8YMDQdR_hW6YbAPNDb0kydkg"
+    
+    },
 
     {"id": 14, "titulo": "Batman: O Cavaleiro das Trevas", "genero": "Ação", "diretor": "Christopher Nolan", "poster": "https://images.unsplash.com/photo-1478760329108-5c3ed9d495a0?q=80&w=400"},
 ]
@@ -148,7 +155,7 @@ def recomendar_filmes(titulo_escolhido):
     sugestoes.sort(key=lambda x: x["pontos"], reverse=True)
             
     return sugestoes
-    
+
 # === [Etapa 3 Nova!] Criando a nossa API Web ===
 
 @app.route('/api/recomendar', methods=['GET'])

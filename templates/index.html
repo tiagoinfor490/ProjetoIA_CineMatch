@@ -14,12 +14,18 @@
         <h1>CineMatch</h1>
         <p class="subtitle">Escolha um filme que você gosta e veja a mágica!</p>
         <div class="input-group">
-            <input type="text" id="filme-usuario" list="lista-sugestoes-busca"
-                placeholder="Digite o nome de um filme (ex: Matrix)..." autocomplete="on"
-                style="width: 100%; padding: 12px; border-radius: 5px; border: none; background-color: #333; color: white; font-size: 1rem; margin-bottom: 20px; box-sizing: border-box; outline: none;">
-            <datalist id="lista-sugestoes-busca"></datalist>
+            <div style="position: relative; width: 100%; text-align: left;">
+                <input type="text" id="filme-usuario" placeholder="Digite o nome de um filme (ex: Matrix)..."
+                    autocomplete="off"
+                    style="width: 100%; padding: 12px; border-radius: 5px; border: none; background-color: #333; color: white; font-size: 1rem; box-sizing: border-box; outline: none;">
 
-            <button onclick="buscarRecomendacoes()">Encontrar Semelhantes</button>
+                <div id="caixa-sugestoes"
+                    style="display: none; position: absolute; top: 100%; left: 0; width: 100%; background-color: #222; border: 1px solid #444; border-radius: 0 0 5px 5px; max-height: 200px; overflow-y: auto; z-index: 1000; box-shadow: 0 4px 10px rgba(0,0,0,0.5);">
+                </div>
+            </div>
+
+            <button onclick="buscarRecomendacoes()" style="margin-top: 20px; width: 100%;">Encontrar
+                Semelhantes</button>
         </div>
         <div style="margin-top: 20px; text-align: left; background: #222; padding: 15px; border-radius: 10px;">
             <h4 style="margin: 0 0 10px 0; color: var(--primary-color);">🍿 Meu Histórico (Já Assistidos):</h4>

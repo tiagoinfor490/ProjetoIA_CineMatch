@@ -192,18 +192,24 @@ button:hover {
     box-shadow: 0 4px 12px rgba(0,0,0,0.5);
 }
 
+/* static/style.css (Adicione no final do arquivo) */
+
 .sugestao-item {
     padding: 12px;
     cursor: pointer;
+    color: #ffffff;
     border-bottom: 1px solid #333;
-    color: var(--text-white);
     font-size: 0.95rem;
+    transition: background 0.2s;
 }
 
 .sugestao-item:hover {
     background-color: var(--primary-color);
 }
 
+.sugestao-item:last-child {
+    border-bottom: none;
+}
 /* --- REGRAS DE RESPONSIVIDADE (MEDIA QUERIES) --- */
 @media (max-width: 600px) {
     body {
