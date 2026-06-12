@@ -106,7 +106,7 @@ filmes_db = [
     
     },
 
-    {"id": 14, "titulo": "Batman: O Cavaleiro das Trevas", "genero": "Ação", "diretor": "Christopher Nolan", "poster": "https://images.unsplash.com/photo-1478760329108-5c3ed9d495a0?q=80&w=400"},
+    {"id": 14, "titulo": "Batman: O Cavaleiro das Trevas", "genero": "Ação", "diretor": "Christopher Nolan", "poster": "https://upload.wikimedia.org/wikipedia/pt/thumb/d/d1/The_Dark_Knight.jpg/250px-The_Dark_Knight.jpg"},
 
     # Drama
     {"id": 15, "titulo": "O Poderoso Chefão", "genero": "Drama", "diretor": "Francis Ford Coppola", "poster": "https://play-lh.googleusercontent.com/ooMpCgZK3ftSd8b5z8pob30iilVw2sUf6V9DQoWPRd4UlvWhT-PJIJMgJEojH3WjTXt4srbfzUuEYu72J-Q"},
