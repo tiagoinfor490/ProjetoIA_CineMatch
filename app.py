@@ -76,7 +76,7 @@ filmes_db = [
         "titulo": "Duna",
         "genero": "Ficção Científica", 
         "diretor": "Denis Villeneuve", 
-        "poster": "https://images.unsplash.com/photo-1509198397868-475647b2a1e5?q=80&w=400"
+        "poster": "https://br.web.img3.acsta.net/pictures/21/09/29/20/10/5897145.jpg"
 
     },
 
@@ -98,8 +98,8 @@ filmes_db = [
     },
 
     {
-    "id": 13, "titulo":
-    "Mad Max: Estrada da Fúria", 
+    "id": 13,
+    "titulo":"Mad Max: Estrada da Fúria", 
     "genero": "Ação",
     "diretor": "George Miller", 
     "poster": "https://play-lh.googleusercontent.com/4jEtcyD2lETV4XbD7Tz-epv7z4f9MK07hPNG1ZvwShJP1eIHg5rdDrDDNM8YMDQdR_hW6YbAPNDb0kydkg"
@@ -107,12 +107,29 @@ filmes_db = [
     },
 
     {"id": 14, "titulo": "Batman: O Cavaleiro das Trevas", "genero": "Ação", "diretor": "Christopher Nolan", "poster": "https://images.unsplash.com/photo-1478760329108-5c3ed9d495a0?q=80&w=400"},
+
+    # Drama
+    {"id": 15, "titulo": "O Poderoso Chefão", "genero": "Drama", "diretor": "Francis Ford Coppola", "poster": "https://play-lh.googleusercontent.com/ooMpCgZK3ftSd8b5z8pob30iilVw2sUf6V9DQoWPRd4UlvWhT-PJIJMgJEojH3WjTXt4srbfzUuEYu72J-Q"},
+    {"id": 16, "titulo": "Clube da Luta", "genero": "Drama", "diretor": "David Fincher", "poster": "https://br.web.img3.acsta.net/medias/nmedia/18/90/95/96/20122166.jpg"},
+    {"id": 17, "titulo": "Forrest Gump", "genero": "Drama", "diretor": "Robert Zemeckis", "poster": "https://upload.wikimedia.org/wikipedia/pt/c/c0/ForrestGumpPoster.jpg"},
+    {"id": 18, "titulo": "Whiplash", "genero": "Drama", "diretor": "Damien Chazelle", "poster": "https://m.media-amazon.com/images/I/914trm0WbIL._AC_UF894,1000_QL80_.jpg"},
+    {"id": 19, "titulo": "O Show de Truman", "genero": "Drama", "diretor": "Peter Weir", "poster": "https://br.web.img3.acsta.net/medias/nmedia/18/93/64/37/20269376.jpg"},
+
+    # Comédia & Animação
+    {"id": 20, "titulo": "Superbad", "genero": "Comédia", "diretor": "Greg Mottola", "poster": "https://upload.wikimedia.org/wikipedia/pt/thumb/8/8b/Superbad_Poster.png/250px-Superbad_Poster.png"},
+    {"id": 21, "titulo": "Deadpool", "genero": "Comédia", "diretor": "Tim Miller", "poster": "https://m.media-amazon.com/images/M/MV5BNzY3ZWU5NGQtOTViNC00ZWVmLTliNjAtNzViNzlkZWQ4YzQ4XkEyXkFqcGc@._V1_.jpg"},
+    {"id": 22, "titulo": "Toy Story", "genero": "Animação", "diretor": "John Lasseter", "poster": "https://upload.wikimedia.org/wikipedia/pt/a/a7/Toy_Story_1995.jpg"},
+    {"id": 23, "titulo": "A Viagem de Chihiro", "genero": "Animação", "diretor": "Hayao Miyazaki", "poster": "https://br.web.img3.acsta.net/pictures/210/527/21052756_20131024195513383.jpg"},
+    {"id": 24, "titulo": "Shrek", "genero": "Animação", "diretor": "Andrew Adamson", "poster": "https://m.media-amazon.com/images/I/919ZUTtPbXL._AC_UF894,1000_QL80_.jpg"},
+
+    # Suspense & Terror
+    {"id": 25, "titulo": "Ilha do Medo", "genero": "Suspense", "diretor": "Martin Scorsese", "poster": "https://www.papodecinema.com.br/wp-content/uploads/2012/04/20180529-download.webp"},
+    {"id": 26, "titulo": "Garota Exemplar", "genero": "Suspense", "diretor": "David Fincher", "poster": "https://cinema-em-cena.nyc3.cdn.digitaloceanspaces.com/reviews/63/54nI3vSKlPp42WhJmKVRdmMbkzl.jpg"},
+    {"id": 27, "titulo": "Corra!", "genero": "Terror", "diretor": "Jordan Peele", "poster": "https://m.media-amazon.com/images/I/61RsJbAFxbS._AC_UF894,1000_QL80_.jpg"},
+    {"id": 28, "titulo": "Hereditário", "genero": "Terror", "diretor": "Ari Aster", "poster": "https://br.web.img3.acsta.net/pictures/18/06/14/13/11/1751062.jpg"},
 ]
 
-# [Etapa 2] Nossa lógica de recomendação da IA
-# app.py (Substitua a função recomendar_filmes)
 
-# app.py (Substitua a função recomendar_filmes para garantir compatibilidade total)
 
 def recomendar_filmes(titulo_escolhido):
     filme_usuario = None
